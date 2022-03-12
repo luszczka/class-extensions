@@ -9,9 +9,9 @@ class Slider {
         this.sliderID = sliderID;
         this.showLabel = true;
         this.showControls = true;
-        this.slideTypes = {Video, Image, Html};
+        this.slideTypesArray = [Video, Image, Html];
     }
-
+    
     createSlider() {
         const newSlider = document.createElement("div");
         newSlider.classList.add(`${MAIN_CLASS}`);
@@ -19,6 +19,7 @@ class Slider {
         document.body.prepend(newSlider);
         this.createLabel();
         this.createControls();
+        this.genericSliderFunction();
     }
 
     createLabel() {
@@ -40,38 +41,34 @@ class Slider {
         sliderDiv.appendChild(newNextButton);
     }
 
+    genericSliderFunction() {
+        console.log("generic slider function");
+    }
+
     runApp = () => {
-        this.createSlider();
-        console.log(this.slideTypes)
-
-        console.log(this.slideTypes.Video.name)
-        const runVideo = new Video;
-        runVideo.play();
-        runVideo.pause();
-
-        console.log(this.slideTypes.Image.name)
-        const runImage = new Image;
-        runImage.crop();
-        runImage.rotate();
-
-        console.log(this.slideTypes.Html.name)
-        const runHtml = new Html;
-        runHtml.raw();
-        runHtml.render();
-
-        for (let i = 0; i < this.slideTypes; i++) {}
+        
+        for (let i = 0; i < this.slideTypesArray.length; i++) {
+            let classID = `${this.slideTypesArray[i].name}`;
+            this.createSlider();
+            console.log(classID);
+        }
+        new Video;
+        new Image;
+        new Html;
     }
 }
 
 class Video extends Slider {
     constructor() {
-        super()
+        super();
+        this.play();
+        this.pause();
     }
-    play() {
+    play = function() {
         console.log("Video - play");
     }
 
-    pause() {
+    pause = function() {
         console.log("Video - pause");
     }
 }
@@ -79,6 +76,8 @@ class Video extends Slider {
 class Image extends Slider {
     constructor() {
         super()
+        this.crop();
+        this.rotate();
     }
     crop() {
         console.log("Image - crop");
@@ -92,6 +91,8 @@ class Image extends Slider {
 class Html extends Slider {
     constructor() {
         super()
+        this.raw();
+        this.render();
     }
     raw() {
         console.log("html - raw");
